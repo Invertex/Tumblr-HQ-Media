@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name        Tumblr Always HQ Media
 // @description Always load highest resolution version of images on any Tumblr page, not just direct URL
-// @version     1.3.5
+// @version     1.3.6
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @namespace   Invertex
+// @namespace   https://greasyfork.org/en/scripts/32294-tumblr-always-hq-media
 // @supportURL http://invertex.xyz
 // @match	*://*.tumblr.com/*
 // @grant       none
