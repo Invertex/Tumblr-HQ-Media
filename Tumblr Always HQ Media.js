@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Tumblr Always HQ Media
 // @description Always load highest resolution version of images on any Tumblr page, not just direct URL
-// @version     1.3.7
+// @version     1.3.8
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @namespace   https://greasyfork.org/en/scripts/32294-tumblr-always-hq-media
 // @supportURL http://invertex.xyz
@@ -23,7 +23,7 @@ function checkIfJustImgURL(index) {
     }
     if(index === 0)
     {
-        url = "http://" + url.substring(url.indexOf(".") + 1); //remove sub-domain number if trying to access RAW image
+        url = "https://" + url.substring(url.indexOf(".") + 1); //remove sub-domain number if trying to access RAW image
     }
     if (url == window.location.href) {return;}
     thisJQ.ajax({
@@ -56,7 +56,7 @@ function processImages(element)
         
             if(preSrc != imgs[i].src && imgs[i].src.includes(".media."))
             {
-                imgs[i].src = "http://" + imgs[i].src.substring(imgs[i].src.indexOf(".") + 1);
+                imgs[i].src = "https://" + imgs[i].src.substring(imgs[i].src.indexOf(".") + 1);
                 //Set the link wrapped around our image to point to the same image so as to not confuse people when they hover over it. Or if they do a save link as.
                 thisJQ(imgs[i]).attr('data-highres', imgs[i].src);
                 var p1 =  thisJQ(imgs[i]).parent();
