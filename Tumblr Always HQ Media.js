@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Tumblr Always HQ Media
 // @description Always load highest resolution version of images on any Tumblr page, not just direct URL
-// @version     1.3.4
+// @version     1.3.5
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @namespace   Invertex
 // @supportURL http://invertex.xyz
@@ -13,11 +13,19 @@ var sizes = ['_raw.', '_1280.', '_540.', '_500.', '_400.', '_250.', '_100.' ];
 var postCount = 0;
 var thisJQ = $;
 
-
 function checkIfJustImgURL(index) {
     if (index >= sizes.length) return;
-    var url = window.location.href.replace(/(.*(?=_))(_\d*.)(.*)/, '$1' + sizes[index] + '$3');
-    if (url == window.location.href) return;
+    var url = window.location.href;
+   // url = url.replace(/(.*(?=_))(_\d*.)(.*)/, '$1' + sizes[index] + '$3');
+     for (var s = 1; s < sizes.length; s++)
+    {
+        url = url.replace(sizes[s], sizes[index]); //Replace any size with the max size.
+    }
+    if(index === 0)
+    {
+        url = "http://" + url.substring(url.indexOf(".") + 1); //remove sub-domain number if trying to access RAW image
+    }
+    if (url == window.location.href) {return;}
     thisJQ.ajax({
         url: url,
         type: 'HEAD',
@@ -25,7 +33,7 @@ function checkIfJustImgURL(index) {
             window.location.replace(url);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            checkSize(index + 1);
+            checkIfJustImgURL(index + 1);
         }
     });
 }
