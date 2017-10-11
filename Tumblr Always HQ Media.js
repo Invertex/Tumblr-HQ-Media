@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Tumblr Always HQ Media
 // @description Always load highest resolution version of images on any Tumblr page, not just direct URL
-// @version     1.3.8
+// @version     1.3.9
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @namespace   https://greasyfork.org/en/scripts/32294-tumblr-always-hq-media
 // @supportURL http://invertex.xyz
@@ -39,6 +39,28 @@ function checkIfJustImgURL(index) {
 }
 checkIfJustImgURL(0);
 
+function decreaseURL(imgURL)
+{
+    var newURL = imgURL;
+
+    if(imgURL.includes(".gif"))
+    {
+         for (var s = 1; s < sizes.length; s++)
+         {
+             newURL = newURL.replace(sizes[s], "_500."); //Replace any size with the max size.
+         }
+
+    }
+    else
+    {
+        for (var s = 1; s < sizes.length; s++)
+         {
+             newURL = newURL.replace(sizes[s], "_1280."); //Replace any size with the max size.
+         }
+    }
+    return newURL;
+}
+
 function processImages(element)
 {
     var imgs = element.getElementsByTagName("img");
@@ -67,6 +89,21 @@ function processImages(element)
                     p1 = thisJQ(p1).parent();
                 }
                 p1.attr('href', imgs[i].src);
+                imgs[i].setAttribute('oldURL', preSrc);
+               /* if(!imgs[i].complete)
+                {
+                    console.log(imgs[i].src + " failed to load");
+                    imgs[i].src = preSrc;
+                    thisJQ(imgs[i]).attr('data-highres', preSrc);
+                }*/
+                imgs[i].onerror = function ()
+                {
+                    var lowerURL = decreaseURL(this.getAttribute('oldURL'));
+                    this.src = lowerURL;
+                    thisJQ(imgs[i]).attr('data-highres', lowerURL);
+                    thisJQ(this).parent().attr('href', lowerURL);
+                };
+
             }
         }
     }
