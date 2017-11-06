@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Tumblr Always HQ Media
 // @description Always load highest resolution version of images on any Tumblr page, not just direct URL
-// @version     1.4.0
+// @version     1.4.1
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @namespace   https://greasyfork.org/en/scripts/32294-tumblr-always-hq-media
 // @supportURL http://invertex.xyz
@@ -275,4 +275,4 @@ console.log("lightbox check");
 }
 document.onclick = checkLightbox;
 
-$.noConflict();
+$.noConflict(true);
